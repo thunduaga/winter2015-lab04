@@ -28,7 +28,18 @@ class Welcome extends Application {
 
         //Some is the function used to get data from the database
         //it returns mixed The selected records, as an array of records
-        $completed = $this->orders->some('orders', 'num');
+        $completed = $this->orders->some('status', 'c');
+        /*$completed is the array of orders
+         * $this calls the database table "orders"
+         * orders is a table in the database
+         * some looks for the 'status' which is an element in the table 'orders'
+         * and c means complete, so it looks for each 'orders' table
+         * that has the 'status' of 'c'
+         * 
+         * this is very confusing given there is a model named orders.php
+         * a controller named order.php and a table named orders.
+         * 
+          */
         
         // Build a multi-dimensional array for reporting
         $orders = array();
