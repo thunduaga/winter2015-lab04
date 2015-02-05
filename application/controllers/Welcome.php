@@ -26,8 +26,9 @@ class Welcome extends Application {
         // Get all the completed orders
         //FIXME
 
-        //trying to get this to work
-        $completed = $this->Orders->new('Orders', 'OrderNum');
+        //Some is the function used to get data from the database
+        //it returns mixed The selected records, as an array of records
+        $completed = $this->Orders->some('Orders', 'OrderNum');
         
         // Build a multi-dimensional array for reporting
         $orders = array();
