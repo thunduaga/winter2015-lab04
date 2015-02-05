@@ -28,7 +28,7 @@ class Welcome extends Application {
 
         //Some is the function used to get data from the database
         //it returns mixed The selected records, as an array of records
-        $completed = $this->Orders->some('orders', 'num');
+        $completed = $this->orders->some('orders', 'num');
         
         // Build a multi-dimensional array for reporting
         $orders = array();
