@@ -18,6 +18,14 @@ class Order extends Application {
     // start a new order
     function neworder() {
         //FIXME
+        $order_num = $this->orders->highest() + 1;
+        
+        $newOrder = $this->orders->create();//makes a new 'orders' table
+        $newOrder ->num = $order_num;//set the order num
+        $newOrder ->date = date(DATE_ATOM);//set the date to be right now
+        $newOrder ->status = 'a';//set status to be open
+        $newOrder ->total = 0.0;//total is 0 since we havent selected anything
+        $this->orders->add($newOrder );//actually add this new order to the tables 'orders'
 
         redirect('/order/display_menu/' . $order_num);
     }
