@@ -73,13 +73,12 @@ class Order extends Application {
     
     // make a menu ordering column
     function make_column($category) {
-        //FIXME
         return $this->menu->some('category',$category);
     }
 
     // add an item to an order
     function add($order_num, $item) {
-        //FIXME
+        $this->orders->add_item($order_num, $item);
         redirect('/order/display_menu/' . $order_num);
     }
 
@@ -88,7 +87,16 @@ class Order extends Application {
         $this->data['title'] = 'Checking Out';
         $this->data['pagebody'] = 'show_order';
         $this->data['order_num'] = $order_num;
-        //FIXME
+
+        $OrderedItems = $this->orderitems->group($order_num);
+        foreach ($OrderedItems as $item) {
+            $menuitem = $this->menu->get($item->item);
+            $item->code = $menuitem->name;
+        }
+        $this->data['items'] = $OrderedItems;
+
+        $this->data['okornot'] = $this->orders->validate($order_num) ? "" : "disabled";
+
 
         $this->render();
     }
