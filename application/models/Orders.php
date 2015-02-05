@@ -45,18 +45,34 @@ class Orders extends MY_Model {
 
     // retrieve the details for an order
     function details($num) {
-        
+        $this->data['items'] = $this->orders->details($num);
     }
 
     // cancel an order
     function flush($num) {
-        
+        //$this->orderitems->delete_some($order_num);
     }
 
     // validate an order
     // it must have at least one item from each category
     function validate($num) {
-        return false;
+        //$this->data['okornot'] = $this->orders->validate($num);
+        $CI = & get_instance();
+        $OrderItems = $CI->orderitems->group($num);
+        $array = array();
+        if (count($OrderItems) > 0)
+            foreach ($OrderItems as $item) {
+                $menu = $CI->menu->get($item->item);
+                $array [$menu->category] = 1;
+            }
+        if( isset($array ['m']) && isset($array ['d']) && isset($array ['s']))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }

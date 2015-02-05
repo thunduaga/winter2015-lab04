@@ -84,33 +84,49 @@ class Order extends Application {
 
     // checkout
     function checkout($order_num) {
+        $this->data['total'] = number_format($this->orders->total($order_num), 2);
         $this->data['title'] = 'Checking Out';
         $this->data['pagebody'] = 'show_order';
         $this->data['order_num'] = $order_num;
 
         $OrderedItems = $this->orderitems->group($order_num);
-        foreach ($OrderedItems as $item) {
+        
+        foreach ($OrderedItems as $item) 
+        {
             $menuitem = $this->menu->get($item->item);
             $item->code = $menuitem->name;
         }
         $this->data['items'] = $OrderedItems;
 
         $this->data['okornot'] = $this->orders->validate($order_num) ? "" : "disabled";
-
-
         $this->render();
     }
 
     // proceed with checkout
     function proceed($order_num) {
         //FIXME
+        if (!$this->orders->validate($order_num))
+            redirect('/order/display_menu/' . $order_num);
+        $OrderedItems = $this->orders->group($order_num);
+        $OrderedItems->status = 'c';
+        $OrderedItems->date = date(DATE_ATOM);//set the date to be right now
+        $OrderedItems->total = $this->orders->total($order_num);//set the date to be right now
+        $this->orders->update($record);
         redirect('/');
     }
 
     // cancel the order
     function cancel($order_num) {
         //FIXME
+        //flush($order_num);
+        //couldnt use flush to delete so i put it here
+        $this->orderitems->delete_some($order_num);
+        
+        $Order = $this->orders->get($order_num);
+        $Order->status = 'x';//set the status to cancled
+        $this->orders->update($Order);
         redirect('/');
+        //redirect('/');
     }
 
 }
