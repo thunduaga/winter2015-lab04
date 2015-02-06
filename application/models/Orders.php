@@ -38,7 +38,7 @@ class Orders extends MY_Model {
         if (count($items) > 0)//if there are actually items
             foreach ($items as $item) {//for each item
                 $menuOrder = $CI->menu->get($item->item);
-                $total += $item->quantity * $menuOrder->price;
+                $total += $item->quantity * $menuOrder->price;//calculate the price
             }
         return $total;
     }
@@ -56,7 +56,7 @@ class Orders extends MY_Model {
     // validate an order
     // it must have at least one item from each category
     function validate($num) {
-        //$this->data['okornot'] = $this->orders->validate($num);
+        //check to see if your order has one of each type or not
         $CI = & get_instance();
         $OrderItems = $CI->orderitems->group($num);
         $array = array();

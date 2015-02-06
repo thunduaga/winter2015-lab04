@@ -39,7 +39,7 @@ class Order extends Application {
         $this->data['order_num'] = $order_num;
         //FIXME
         $order = $this->orders->get($order_num);
-        $this->data['title'] = $order_num;
+        $this->data['title'] = $order_num.' = $'.$this->orders->total($order_num);
 
         // Make the columns
         $this->data['meals'] = $this->make_column('m');
@@ -103,15 +103,15 @@ class Order extends Application {
     }
 
     // proceed with checkout
-    function proceed($order_num) {
+    function commit($order_num) {
         //FIXME
         if (!$this->orders->validate($order_num))
             redirect('/order/display_menu/' . $order_num);
-        $OrderedItems = $this->orders->group($order_num);
+        $OrderedItems = $this->orders->get($order_num);
         $OrderedItems->status = 'c';
         $OrderedItems->date = date(DATE_ATOM);//set the date to be right now
         $OrderedItems->total = $this->orders->total($order_num);//set the date to be right now
-        $this->orders->update($record);
+        $this->orders->update($OrderedItems);
         redirect('/');
     }
 
