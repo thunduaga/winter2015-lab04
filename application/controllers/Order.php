@@ -84,8 +84,9 @@ class Order extends Application {
 
     // checkout
     function checkout($order_num) {
+        //actually show the total 
         $this->data['total'] = number_format($this->orders->total($order_num), 2);
-        $this->data['title'] = 'Checking Out';
+        $this->data['title'] = 'Checking Out';//set the title
         $this->data['pagebody'] = 'show_order';
         $this->data['order_num'] = $order_num;
 
@@ -108,7 +109,7 @@ class Order extends Application {
         if (!$this->orders->validate($order_num))
             redirect('/order/display_menu/' . $order_num);
         $OrderedItems = $this->orders->get($order_num);
-        $OrderedItems->status = 'c';
+        $OrderedItems->status = 'c';//set the order status to complete
         $OrderedItems->date = date(DATE_ATOM);//set the date to be right now
         $OrderedItems->total = $this->orders->total($order_num);//set the date to be right now
         $this->orders->update($OrderedItems);

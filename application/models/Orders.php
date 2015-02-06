@@ -16,15 +16,18 @@ class Orders extends MY_Model {
     function add_item($num, $code) {
         $CI = & get_instance();//get superglobal
         if ($CI->orderitems->exists($num, $code)) {
+            //if they already have ordered one of those items
             $order = $CI->orderitems->get($num, $code);
-            $order->quantity++;
+            $order->quantity++;//increase the quantitiy
             
             $CI->orderitems->update($order);
         } else {
             $order = $CI->orderitems->create();
+            //otherwise create the item in the orderitems 
             $order->order = $num;
             $order->item = $code;
-            $order->quantity = 1;
+            $order->quantity = 1;//set quantity to 1 because its the first one
+            //to be selected of its kind
             
             $CI->orderitems->add($order);
         }

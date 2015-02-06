@@ -60,6 +60,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
+//add the database to our libraries so we can reference 'orders' table and so on
 $autoload['libraries'] = array( 'database', 'parser');
 
 
@@ -137,4 +138,5 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
+//Add models orders, orderitems and menu so that they can be used errywhere
 $autoload['model'] = array('orders', 'orderitems', 'menu');
